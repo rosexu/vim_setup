@@ -16,8 +16,11 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Bundle 'Valloric/YouCompleteMe'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
+
+" For syntax highlighting and checking
+"Plugin 'vim-syntastic/syntastic'
+"Plugin 'nvie/vim-flake8'
+Plugin 'w0rp/ale'
 " color schemes
 Plugin 'flazz/vim-colorschemes'
 Plugin 'scrooloose/nerdtree'
@@ -26,6 +29,9 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 " status bar
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+" quick toggle comments
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
 " ...
 
 " All of your Plugins must be added before the following line
@@ -41,24 +47,30 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" yapf python formatter
+nnoremap <leader>, :call yapf#YAPF()<cr>
+
+" copy and paste
+set clipboard=unnamed
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
 " Enable folding with the spacebar
-nnoremap <space> za
+nnoremap , za
 let g:SimpylFold_docstring_preview=1
 
 " indentation for python files
 au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
 
 " flag whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred"
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " needed for python
@@ -83,3 +95,6 @@ set nu
 
 " copy from outside of VIM with p
 set clipboard=unnamed
+
+" comments
+let g:NERDSpaceDelims = 1
